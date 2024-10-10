@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:whats_app/features/custom_chat/components/custom_chat_card.dart';
 import 'package:whats_app/features/users/models/user_model.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -19,7 +18,7 @@ class CustomInboxScreen extends StatefulWidget {
 
 class _CustomInboxScreenState extends State<CustomInboxScreen> {
   final TextEditingController _controller = TextEditingController();
-  List<String> messages = []; // List to store messages
+  List<Map<String, dynamic>> messages = []; // List to store messages with sender info
   late IO.Socket socket;
 
   @override
@@ -36,12 +35,25 @@ class _CustomInboxScreenState extends State<CustomInboxScreen> {
     socket.connect();
     socket.emit("signin", widget.userModel.id);
     socket.onConnect((data) => print("socket is connected"));
+
+    // Listen for incoming messages
+    socket.on("messages", (data) {
+      setState(() {
+        messages.add({
+          "message": data['message'],
+          "senderId": data['sourceId'], // Storing who sent the message
+        });
+      });
+    });
   }
 
   void sendMessage(String message, int sourceId, int targetId) {
     if (message.isNotEmpty) {
       setState(() {
-        messages.add(message); // Add the message to the list
+        messages.add({
+          "message": message,
+          "senderId": sourceId, // Mark the current user as the sender
+        });
       });
 
       socket.emit("messages", {
@@ -66,21 +78,20 @@ class _CustomInboxScreenState extends State<CustomInboxScreen> {
             child: ListView.builder(
               itemCount: messages.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Align(
-                    alignment: widget.sourcChat.id == widget.userModel.id
-                        ? Alignment.centerRight
-                        : Alignment.centerLeft,
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: widget.sourcChat.id == widget.userModel.id
-                            ? Colors.green[100]
-                            : Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(messages[index]),
+                // Check if the message is sent by the current user
+                bool isSentByUser = messages[index]['senderId'] == widget.sourcChat.id;
+                return Align(
+                  alignment: isSentByUser
+                      ? Alignment.centerRight // Sent by user, show on the right
+                      : Alignment.centerLeft,  // Received message, show on the left
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    decoration: BoxDecoration(
+                      color: isSentByUser ? Colors.green[100] : Colors.grey[200],
+                      borderRadius: BorderRadius.circular(8),
                     ),
+                    child: Text(messages[index]['message']),
                   ),
                 );
               },
@@ -95,7 +106,7 @@ class _CustomInboxScreenState extends State<CustomInboxScreen> {
                     controller: _controller,
                     decoration: InputDecoration(
                       hintText: "Enter message...",
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                     ),
                   ),
                 ),
@@ -104,7 +115,7 @@ class _CustomInboxScreenState extends State<CustomInboxScreen> {
                     sendMessage(_controller.text, widget.sourcChat.id,
                         widget.userModel.id);
                   },
-                  icon: Icon(Icons.send),
+                  icon: const Icon(Icons.send),
                 ),
               ],
             ),
