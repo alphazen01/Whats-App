@@ -71,16 +71,16 @@ class ProfileView extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ChatScreen(
-                                            image: chat.image,
-                                            name: chat.name,
-                                            status: chat.isActive,
-                                            chat: chat,
-                                          )),
-                                );
+                                // Navigator.pushReplacement(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //       builder: (context) => ChatScreen(
+                                //             image: chat.image,
+                                //             name: chat.name,
+                                //             status: chat.isActive,
+                                //             chat: chat,
+                                //           )),
+                                // );
                               },
                               child: Icon(
                                 Icons.chat,

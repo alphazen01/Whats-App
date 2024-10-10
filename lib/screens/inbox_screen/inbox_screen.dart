@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whats_app/constants.dart';
+import 'package:whats_app/features/users/models/user_model.dart';
 import 'package:whats_app/models/chat.dart';
 import 'package:whats_app/screens/camera_screen/camera_screen.dart';
 import 'package:whats_app/screens/inbox_screen/components/broadcast_screen.dart';
@@ -14,8 +15,9 @@ import '../setting_screen/setting_screen.dart';
 import 'components/chats_card.dart';
 
 class InboxScreen extends StatefulWidget {
-  const InboxScreen({Key? key}) : super(key: key);
-
+  const InboxScreen({Key? key, required this.userModel, required this.sourcChat}) : super(key: key);
+final UserModel userModel;
+final UserModel sourcChat;
   @override
   State<InboxScreen> createState() => _InboxScreenState();
 }
@@ -217,28 +219,21 @@ class _InboxScreenState extends State<InboxScreen>
               ),
               ListView.builder(
                 padding: const EdgeInsets.only(top: kMedPadding),
-                itemCount: chatsData.length + 1,
-                itemBuilder: ((context, index) => (index != chatsData.length)
-                    ? ChatCard(
+                itemCount: chatsData.length ,
+                itemBuilder: ((context, index) =>  ChatCard(
+                      userModel: widget.userModel,
+                      sourcChat: widget.sourcChat,
                         chat: chatsData[index],
-                        press: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const InboxScreen()),
-                        ),
+                        press: () {} 
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => const InboxScreen()
+                        //       ),
+                        // ),
                       )
-                    : const Padding(
-                        padding: EdgeInsets.only(
-                            top: kMedPadding, bottom: kLargePadding * 5),
-                        child: Text(
-                          "Tap and hold on a chat for more options",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 12,
-                              color: kIconColor),
-                        ),
-                      )),
+                     
+                    ),
               ),
               const StatusScreen(),
               const CallScreen(),
@@ -247,6 +242,7 @@ class _InboxScreenState extends State<InboxScreen>
         ),
         floatingActionButton: _tabController.index == 1
             ? FloatingActionButton(
+              
                 heroTag: 'Contact',
                 onPressed: () {
                   Navigator.push(
@@ -255,7 +251,7 @@ class _InboxScreenState extends State<InboxScreen>
                         builder: (context) => const ContactScreen()),
                   );
                 },
-                backgroundColor: Theme.of(context).primaryColorLight,
+                backgroundColor: Colors.teal,
                 child: const Icon(
                   Icons.chat,
                   color: kBackgroundColor,

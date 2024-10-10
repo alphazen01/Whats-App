@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:whats_app/features/custom_chat/model/chat_model.dart';
+import 'package:whats_app/features/users/models/user_model.dart';
 import 'package:whats_app/screens/chat_screen/chat_screen.dart';
 
 import '../../../constants.dart';
@@ -10,11 +12,14 @@ class ChatCard extends StatelessWidget {
   const ChatCard({
     Key? key,
     required this.chat,
-    required this.press,
+    required this.press, 
+    required this.userModel, required this.sourcChat,
   }) : super(key: key);
 
   final Chat chat;
   final VoidCallback press;
+  final UserModel userModel;
+final UserModel sourcChat;
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +31,15 @@ class ChatCard extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => ChatScreen(
+                  userModel: userModel,
+                  sourcChat: sourcChat,
                       image: chat.image,
                       name: chat.name,
                       status: chat.isActive,
                       chat: chat,
                     )),
           );
+   
         },
         child: Padding(
           padding: const EdgeInsets.only(
@@ -43,10 +51,10 @@ class ChatCard extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.of(context)
-                      .push(HeroDialogRoute(builder: (context) {
-                    return ProfileView(chat: chat);
-                  }));
+                  // Navigator.of(context)
+                  //     .push(HeroDialogRoute(builder: (context) {
+                  //   return ProfileView(chat: chat);
+                  // }));
                 },
                 child: CircleAvatar(
                   radius: 26,

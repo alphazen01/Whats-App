@@ -175,15 +175,15 @@ class _TransitionAppBarDelegate extends SliverPersistentHeaderDelegate {
                     children: [
                       InkWell(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ChatScreen(
-                                          image: chat.image,
-                                          name: chat.name,
-                                          status: chat.isActive,
-                                          chat: chat,
-                                        )));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => ChatScreen(
+                            //               image: chat.image,
+                            //               name: chat.name,
+                            //               status: chat.isActive,
+                            //               chat: chat,
+                            //             )));
                           },
                           child: buildButton(Icons.chat, 'Message', context)),
                       InkWell(

@@ -68,15 +68,15 @@ class PhoneNumberCard extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ChatScreen(
-                                      image: widget.chat.image,
-                                      name: widget.chat.name,
-                                      status: widget.chat.isActive,
-                                      chat: widget.chat,
-                                    )));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => ChatScreen(
+                        //               image: widget.chat.image,
+                        //               name: widget.chat.name,
+                        //               status: widget.chat.isActive,
+                        //               chat: widget.chat,
+                        //             )));
                       },
                       child: Icon(
                         Icons.chat,

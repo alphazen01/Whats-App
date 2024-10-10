@@ -42,71 +42,38 @@ class _ChatBodyState extends State<ChatBody> {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
-      },
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: (MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.top -
-                      MediaQuery.of(context).viewInsets.bottom) *
-                  0.795,
-              child: ListView.builder(
-                reverse: true,
-                itemCount: chatMessagesData.length,
-                itemBuilder: ((context, index) => (index ==
-                        chatMessagesData.length - 1)
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: kLargePadding),
-                        child: Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).disabledColor,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(10))),
-                            height: MediaQuery.of(context).size.height * 0.1,
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text.rich(
-                                    textAlign: TextAlign.center,
-                                    TextSpan(
-                                      children: [
-                                        WidgetSpan(
-                                            child: Icon(
-                                          Icons.lock,
-                                          color: Theme.of(context)
-                                              .primaryColorDark,
-                                          size: 14,
-                                        )),
-                                        TextSpan(
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColorDark,
-                                            ),
-                                            text:
-                                                " Messages and calls are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them. Tap to learn more."),
-                                      ],
-                                    ),
-                                  ),
-                                )),
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: (MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).padding.top -
+                        MediaQuery.of(context).viewInsets.bottom) *
+                    0.795,
+                child: ListView.builder(
+                  reverse: true,
+                  itemCount: chatMessagesData.length,
+                  itemBuilder: ((context, index) =>  Padding(
+                          padding: const EdgeInsets.only(top: kLargePadding),
+                          child: Center(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                 
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10))),
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              ),
                           ),
-                        ),
-                      )
-                    : ChatMessageCard(
-                        message: chatMessagesData[index],
-                        image: widget.image,
-                        name: widget.name,
-                      )),
+                        )
+                     ),
+                ),
               ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
+              
+              Container(
                 margin: const EdgeInsets.only(top: kSmallPadding),
                 height: (MediaQuery.of(context).size.height -
                         MediaQuery.of(context).padding.bottom -
@@ -224,6 +191,7 @@ class _ChatBodyState extends State<ChatBody> {
                           onPressed: () {
                             if (sendButton) {
                               _controller.clear();
+                              
                               setState(() {
                                 sendButton = false;
                               });
@@ -235,11 +203,11 @@ class _ChatBodyState extends State<ChatBody> {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    
   }
 
   Widget bottomSheet() {

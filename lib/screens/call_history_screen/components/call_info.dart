@@ -21,15 +21,15 @@ class CallInfoScreen extends StatelessWidget {
         actions: [
           InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ChatScreen(
-                              image: callLog.chat.image,
-                              name: callLog.chat.name,
-                              status: callLog.chat.isActive,
-                              chat: callLog.chat,
-                            )));
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => ChatScreen(
+                //               image: callLog.chat.image,
+                //               name: callLog.chat.name,
+                //               status: callLog.chat.isActive,
+                //               chat: callLog.chat,
+                //             )));
               },
               child: const Icon(Icons.chat, color: kBackgroundColor)),
           PopupMenuButton<String>(
