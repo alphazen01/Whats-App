@@ -3,9 +3,10 @@ import 'package:whats_app/features/custom_chat/all_chat.dart';
 import 'package:whats_app/features/users/models/user_model.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key,required this.userModel, required this.sourcChat});
-final UserModel userModel;
-final UserModel sourcChat;
+  const DashboardScreen(
+      {super.key, required this.userModel, required this.sourcChat});
+  final UserModel userModel;
+  final UserModel sourcChat;
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
@@ -18,7 +19,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("WhatsApp Dash"),
+          title: Text("---${widget.userModel.name}"),
           bottom: TabBar(
             indicatorColor: Colors.white,
             isScrollable: true,
@@ -45,7 +46,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         body: TabBarView(
           children: [
             Center(child: Icon(Icons.camera_alt, size: 100)),
-            AllChatScreen(userModel:widget. userModel, sourcChat:widget. sourcChat),
+            AllChatScreen(
+                userModel: widget.userModel, sourcChat: widget.sourcChat),
             Center(child: Text("Status Tab")),
             Center(child: Text("Calls Tab")),
           ],

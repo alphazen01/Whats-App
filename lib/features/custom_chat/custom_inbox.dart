@@ -18,7 +18,8 @@ class CustomInboxScreen extends StatefulWidget {
 
 class _CustomInboxScreenState extends State<CustomInboxScreen> {
   final TextEditingController _controller = TextEditingController();
-  List<Map<String, dynamic>> messages = []; // List to store messages with sender info
+  List<Map<String, dynamic>> messages =
+      []; // List to store messages with sender info
   late IO.Socket socket;
 
   @override
@@ -37,21 +38,20 @@ class _CustomInboxScreenState extends State<CustomInboxScreen> {
     socket.onConnect((data) => print("Socket is connected"));
 
     // Listen for incoming messages
-   socket.on("messages", (data) {
-  if (data != null && data['message'] != null && data['sourceId'] != null) {
-    setState(() {
-      messages.add({
-        "message": data['message'],
-        "senderId": data['sourceId'], // Storing who sent the message
-        "timestamp": DateTime.now().toString(), // Add a timestamp
-      });
+    socket.on("messages", (data) {
+      if (data != null && data['message'] != null && data['sourceId'] != null) {
+        setState(() {
+          messages.add({
+            "message": data['message'],
+            "senderId": data['sourceId'], // Storing who sent the message
+            "timestamp": DateTime.now().toString(), // Add a timestamp
+          });
+        });
+      } else {
+        // Handle unexpected data format
+        print("Received unexpected message format: $data");
+      }
     });
-  } else {
-    // Handle unexpected data format
-    print("Received unexpected message format: $data");
-  }
-});
-
   }
 
   void sendMessage(String message, int sourceId, int targetId) {
@@ -86,23 +86,30 @@ class _CustomInboxScreenState extends State<CustomInboxScreen> {
             child: ListView.builder(
               itemCount: messages.length,
               itemBuilder: (context, index) {
-                bool isSentByUser = messages[index]['senderId'] == widget.userModel.id;
+                bool isSentByUser =
+                    messages[index]['senderId'] == widget.userModel.id;
                 return Align(
                   alignment: isSentByUser
                       ? Alignment.centerRight // Sent by user, show on the right
-                      : Alignment.centerLeft,  // Received message, show on the left
+                      : Alignment
+                          .centerLeft, // Received message, show on the left
                   child: Container(
                     padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: isSentByUser ? Colors.green[100] : Colors.grey[200],
+                      color:
+                          isSentByUser ? Colors.green[100] : Colors.grey[200],
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Column(
-                      crossAxisAlignment: isSentByUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                      crossAxisAlignment: isSentByUser
+                          ? CrossAxisAlignment.end
+                          : CrossAxisAlignment.start,
                       children: [
                         Text(messages[index]['message']),
-                        const SizedBox(height: 5), // Spacing for better visibility
+                        const SizedBox(
+                            height: 5), // Spacing for better visibility
                         Text(
                           messages[index]['timestamp'],
                           style: TextStyle(
@@ -132,7 +139,8 @@ class _CustomInboxScreenState extends State<CustomInboxScreen> {
                 ),
                 IconButton(
                   onPressed: () {
-                    sendMessage(_controller.text, widget.userModel.id, widget.sourcChat.id);
+                    sendMessage(_controller.text, widget.userModel.id,
+                        widget.sourcChat.id);
                   },
                   icon: const Icon(Icons.send),
                 ),

@@ -32,8 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 setState(() {
                   sourchChat = data; // Assign the tapped user to sourceChat
                 });
-                sourchChat = userList.removeAt(
-                    index); // Here sourchChat gets removed from userList
+                // sourchChat = userList.removeAt(
+                //     index); // Here sourchChat gets removed from userList
 
                 // Navigate to the DashboardScreen, passing the userModel and sourcChat
                 Navigator.push(
