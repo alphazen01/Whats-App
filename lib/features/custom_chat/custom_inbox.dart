@@ -44,7 +44,7 @@ class _CustomInboxScreenState extends State<CustomInboxScreen> {
           messages.add({
             "message": data['message'],
             "senderId": data['sourceId'], // Storing who sent the message
-            "timestamp": DateTime.now().toString(), // Add a timestamp
+            "timestamp": DateTime.now().toLocal().toString(), // Add a timestamp
           });
         });
       } else {
@@ -60,7 +60,7 @@ class _CustomInboxScreenState extends State<CustomInboxScreen> {
         messages.add({
           "message": message,
           "senderId": sourceId, // Mark the current user as the sender
-          "timestamp": DateTime.now().toString(), // Add a timestamp
+          "timestamp": DateTime.now().toLocal().toString(), // Add a timestamp
         });
       });
 
@@ -111,7 +111,7 @@ class _CustomInboxScreenState extends State<CustomInboxScreen> {
                         const SizedBox(
                             height: 5), // Spacing for better visibility
                         Text(
-                          messages[index]['timestamp'],
+                          formatTimestamp(messages[index]['timestamp']),
                           style: TextStyle(
                             fontSize: 10,
                             color: Colors.black54,
@@ -150,5 +150,11 @@ class _CustomInboxScreenState extends State<CustomInboxScreen> {
         ],
       ),
     );
+  }
+
+  String formatTimestamp(String timestamp) {
+    DateTime dateTime = DateTime.parse(timestamp);
+    // Format the timestamp to a more user-friendly format (e.g., "10:30 AM")
+    return "${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')} ${dateTime.hour >= 12 ? 'PM' : 'AM'}";
   }
 }
